@@ -92,21 +92,15 @@ def go(args):
     if os.path.exists("random_forest_dir"):
         shutil.rmtree("random_forest_dir")
 
-    print(X_val.dtypes)
-    
-    for col in X_val.select_dtypes(include=['object']).columns:
-        print(f"Unique values in {col}: {X_val[col].unique()}")
-
-    
     ######################################
     # Save the sk_pipe pipeline as a mlflow.sklearn model in the directory "random_forest_dir"
     # HINT: use mlflow.sklearn.save_model
-    signature = mlflow.models.infer_signature(X_val, y_pred)
+    #signature = mlflow.models.infer_signature(X_val, y_pred)
+    export_path = 'random_forest_dir'
     mlflow.sklearn.save_model(
         sk_pipe,
-        path = 'random_forest_dir',
-        
-        signature = signature,
+        #serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE,
+        export_path,
         input_example = X_train.iloc[:5]
     )
     
